@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ExchangeRateUpdater
 {
@@ -21,9 +22,15 @@ namespace ExchangeRateUpdater
 
         public static void Main(string[] args)
         {
+            var serviceProvider = new ServiceCollection()
+                .AddHttpClient<IExchangeRateProvider, ExchangeRateProvider>()
+                .Services.BuildServiceProvider();
+            
+            //do the actual work here
+            var provider = serviceProvider.GetService<IExchangeRateProvider>();
+            
             try
             {
-                var provider = new ExchangeRateProvider();
                 var rates = provider.GetExchangeRates(currencies);
 
                 Console.WriteLine($"Successfully retrieved {rates.Count()} exchange rates:");
