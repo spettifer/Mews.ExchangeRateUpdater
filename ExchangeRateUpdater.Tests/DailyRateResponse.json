@@ -1,0 +1,40 @@
+{
+  "rates": [
+    {
+      "validFor": "2023-12-29",
+      "order": 250,
+      "country": "Australia",
+      "currency": "dollar",
+      "amount": 1,
+      "currencyCode": "AUD",
+      "rate": 15.193
+    },
+    {
+      "validFor": "2023-12-29",
+      "order": 250,
+      "country": "Brazil",
+      "currency": "real",
+      "amount": 1,
+      "currencyCode": "BRL",
+      "rate": 4.612
+    },
+    {
+      "validFor": "2023-12-29",
+      "order": 250,
+      "country": "Bulgaria",
+      "currency": "lev",
+      "amount": 1,
+      "currencyCode": "BGN",
+      "rate": 12.642
+    },
+    {
+      "validFor": "2023-12-29",
+      "order": 250,
+      "country": "Canada",
+      "currency": "dollar",
+      "amount": 1,
+      "currencyCode": "CAD",
+      "rate": 16.885
+    }
+  ]
+}

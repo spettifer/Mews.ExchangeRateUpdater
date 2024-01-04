@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using ExchangeRateUpdater.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ExchangeRateUpdater
 {
@@ -20,18 +24,28 @@ namespace ExchangeRateUpdater
             new Currency("XYZ")
         };
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection()
-                .AddHttpClient<IExchangeRateProvider, ExchangeRateProvider>()
-                .Services.BuildServiceProvider();
+            var config = new ConfigurationBuilder()
+                //.SetBasePath(currentDirectory)
+                .AddJsonFile("appSettings.json")
+                .Build();
             
-            //do the actual work here
+            var services = new ServiceCollection()
+                .AddHttpClient<IExchangeRateProvider, ExchangeRateProvider>()
+                .Services;
+            
+            //serviceProvider.AddOptions<ApiSettings>().Bind(config.GetSection("ApiSettings"));
+
+            services.Configure<ApiSettings>(config.GetSection("apiSettings"));
+
+            var serviceProvider = services.BuildServiceProvider();
+            
             var provider = serviceProvider.GetService<IExchangeRateProvider>();
             
             try
             {
-                var rates = provider.GetExchangeRates(currencies);
+                var rates = await provider.GetExchangeRates(currencies);
 
                 Console.WriteLine($"Successfully retrieved {rates.Count()} exchange rates:");
                 foreach (var rate in rates)
